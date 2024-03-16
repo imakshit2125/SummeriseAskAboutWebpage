@@ -35,7 +35,6 @@ const chain = await createStuffDocumentsChain({
   prompt,
 });
 
-
 // Use Cheerio to scrape content from webpage and create documents
 const loader = new CheerioWebBaseLoader(
   "https://js.langchain.com/docs/expression_language/"

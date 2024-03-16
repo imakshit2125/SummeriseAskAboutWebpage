@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask Any Question</title>
+</head>
+<body>
+  <h1>Ask Any Question</h1>
+
+  <h2>Link of Webpage</h2>
+  <input type="text" id="link" placeholder="Type the link of Webpage" />
+  <button onclick="fetchWebpage()">Fetch the Webpage</button>
+  <div id="fetch-webpage"></div>
+
+  <h2>Write a question to know about this webpage</h2>
+  <input type="text" id="question" placeholder="Write the question" />
+  <button onclick="search()">Find me the answer</button>
+  <div id="answer"></div>
+
+  <script>
+    async function fetchWebpage() {
+      const link = document.getElementById("link").value;
+      const response = await fetch(`/fetch-webpage?url=${encodeURIComponent(link)}`);
+      const content = await response.text();
+      document.getElementById("fetch-webpage").innerHTML = content;
+      
+      // Set the data-url attribute to the current URL
+      document.getElementById("question").setAttribute("data-url", link);
+    }
+
+    async function search() {
+      const question = document.getElementById("question").value;
+      const url = document.getElementById("question").getAttribute("data-url"); // Get the URL from the input field
+      const response = await fetch(`/answer?input=${encodeURIComponent(question)}&url=${encodeURIComponent(url)}`); // Pass the URL as a parameter
+      const data = await response.json();
+      document.getElementById("answer").innerText = data.answer;
+    }
+  </script>
+</body>
+</html>
